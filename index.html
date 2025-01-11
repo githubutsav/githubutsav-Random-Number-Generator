@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Number Generator</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #121212;
+            border: 2px solid #121212;
+            border-radius: 10px;
+            padding: 20px 40px;
+            text-align: center;
+            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        }
+        .container:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 8px 20px rgba(255, 255, 255, 0.4);
+        }
+        
+
+        h1 {
+            color: #e721e4d3;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            background-color: #FFC107;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #8416e4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Random Number Generator</h1>
+        <button class="btn" onclick="generateRandomNumber()">Generate Random Number</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        class RandomNumberGenerator {
+            constructor(seed = Date.now()) {
+                this.modulus = 2 ** 32;
+                this.multiplier = 1664525;
+                this.increment = 1013904223;
+                this.seed = seed;
+                this.state = this.seed;
+            }
+
+            next() {
+                this.state = (this.multiplier * this.state + this.increment) % this.modulus;
+                return this.state;
+            }
+
+            nextFloat() {
+                return this.next() / this.modulus;
+            }
+
+            nextInt(low, high) {
+                return low + Math.floor(this.nextFloat() * (high - low));
+            }
+        }
+
+        const rng = new RandomNumberGenerator();
+
+        function generateRandomNumber() {
+            const randomNumber = rng.nextInt(1, 100); // Generates a random number between 1 and 100
+            document.getElementById('result').innerText = `Random Number: ${randomNumber}`;
+        }
+    </script>
+
+</body>
+</html>
